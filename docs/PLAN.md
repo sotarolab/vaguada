@@ -3,10 +3,11 @@
 Written 2026-10-29. A public, year-round, station-level forecasting service for the daily
 high and low, with every forecast stored before settlement and scored every night against
 the official climate report, the raw models, the NWS forecast and vendor forecasts. Stations
-are rows in `data/stations.csv`. The first set is Los Angeles International, ingested deep
-with every model run, profiles, the discussion and vendor forecasts, and the thirteen other
-ASOS stations of the Los Angeles basin at slot depth, eight of which settle on their own
-climate report and six of which are observation-only neighbours. Depth and settlement are
+are rows in `data/stations.csv`. The first set is six deep stations chosen for different
+regimes, Los Angeles, Miami, Chicago Midway, Austin, New York Central Park and Washington
+National, ingested with every model run, profiles, the discussion, vendor forecasts and
+public market prices where a market exists, plus the thirteen other ASOS stations of the
+Los Angeles basin at slot depth as the first neighbour ring. Depth and settlement are
 columns on the row, not branches of the code. A wider set is more rows.
 
 Two things come out of it. A verified record at station level, which nobody publishes for
@@ -21,7 +22,8 @@ gates and review.
 | Keys | `received_at` in the key of observations and settlements; corrections are rows | 0002 |
 | Issue cadence | Fixed local slots 00/06/12/18; lead to end of local day; evening slot to day 5 | 0003 |
 | Model runs | One row per run and variable, horizon as an array; profiles as variables | 0004 |
-| Stations | Rows in `data/stations.csv`; KLAX deep plus the 13 ASOS stations of the Los Angeles basin at slot depth; depth and settlement are columns | 0001 |
+| Stations | Rows in `data/stations.csv`; six deep stations in different regimes (KLAX, KMIA, KMDW, KAUS, KNYC, KDCA) plus the Los Angeles basin ring at slot depth | 0001, 0005 |
+| Markets | Public bracket prices sampled at slots; market-implied probability is a scorecard baseline; nothing that trades enters | 0005 |
 | Model set | GFS, ECMWF IFS, ICON (global); HRRR, NBM (CONUS); the NWS; vendor APIs | this file |
 | Public science | Daily extremes and baselines public; other forecasters private behind the protocol | 0001 |
 | Frontend | React, TypeScript, uPlot, ported station page; scorecard, discussion, profile panes | this file |
@@ -75,13 +77,16 @@ model_runs    model, station_id, run_at, received_at, source, var, step_h, value
               PK (model, station_id, run_at, var)
 products      office, pil, issued_at, received_at, text
               PK (pil, issued_at)
+markets       station_id, local_day, ticker, bracket_lo, bracket_hi, as_of, received_at,
+              yes_bid, yes_ask, last_price
+              PK (ticker, as_of)
 settlements   station_id, local_day, target, value, source, received_at
               PK (station_id, local_day, target, received_at)
 predictions   forecaster, version, station_id, target, local_day, as_of, received_at,
               quantiles jsonb, features jsonb
               PK (forecaster, version, station_id, target, local_day, as_of)
 scores        forecaster, version, station_id, target, local_day, lead_h,
-              mae, crps, brier jsonb, covered_90, computed_at
+              mae, crps, brier jsonb, bracket_brier, covered_90, computed_at
 scorecard     forecaster, version, target, lead_h, period, n, mae, bias, built_at
 heartbeat     feed, last_success, last_error, rows
 ```
@@ -93,8 +98,10 @@ heartbeat     feed, last_success, last_error, rows
 2. A readable public model: inverse-MAE weighted consensus of the raw models with
    per-station bias and conformal bands. Coverage is monitored live: `covered_90` per lead
    bucket over a trailing 30 days must stay within 85 to 95, and a breach fails the nightly job.
-3. Threshold events from the first scorer: crossing probabilities at fixed thresholds,
-   scored with Brier and a reliability table.
+3. Threshold and bracket events from the first scorer: crossing probabilities at fixed
+   thresholds and bracket probabilities where a market exists, scored with Brier and a
+   reliability table. Point forecasts are scored on brackets through their own empirical
+   error distribution from the record. The market-implied probability is a column.
 4. Private forecasters behind the `Forecaster` protocol. Their rows and scores are public.
 5. Observation impact as a scorecard row: any observation source added to a forecaster is
    scored with and without it, by lead. That is the only kind of assimilation claimed.
@@ -105,8 +112,8 @@ heartbeat     feed, last_success, last_error, rows
    CI, four ADRs, this plan, the feed table.
 2. **Store and ingest.** Tables and migration; Postgres and in-memory stores under one read
    contract; feeds: Open-Meteo per model with profiles, NWS hourly grid, forecast
-   discussion, IEM ASOS, IEM climate report, vendors; heartbeat; the hourly job; the
-   lookahead property test.
+   discussion, IEM ASOS, IEM climate report, vendors, public market prices; heartbeat; the
+   hourly job; the lookahead property test.
 3. **Features and baselines.** Person-written tests first; daily extremes; running extreme;
    `Forecaster` protocol; raw-model and persistence baselines; `issue()`.
 4. **Evaluate.** Settle, score, scorecard; golden backtest committed; the hourly cron on.

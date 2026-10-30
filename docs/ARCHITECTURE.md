@@ -29,6 +29,7 @@ of non-null `temperature_2m` in a 7-day request.
 | Discussion | IEM AFOS `pil=AFD{office}` | text with issue time | n/a | 2 to 4 per day plus updates | Office LOX for KLAX |
 | Observations | IEM ASOS `asos.py`, `report_type=3` | tmpf, dwpf, sky, visibility, precip, wind, pressure, wx codes | n/a | hourly METAR | Request in UTC |
 | Settlement | IEM AFOS `pil=CLI{site}` | daily max, min, times, normals, records | n/a | preliminary ~5 PM local, final next morning | Both versions stored; `received_at` separates them |
+| Markets | public market API, `markets?series_ticker=KXHIGH{city}&status=open` | bracket strikes, yes bid/ask, last price, close time | the day's markets | sampled at slots | No key needed; prices only |
 | Vendors | daily high/low per point from vendor APIs with free tiers | tmax, tmin per day | 5 to 15 d | per fetch | One adapter each; absent when the key is missing; within each free limit |
 
 ## Jobs

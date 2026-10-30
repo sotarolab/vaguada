@@ -13,3 +13,8 @@ asos:KTOA,asos,Torrance,33.80339,-118.33961,31,America/Los_Angeles,false,,1,slot
 asos:KVNY,asos,Van Nuys,34.20972,-118.48917,244,America/Los_Angeles,false,,1,slot,true
 asos:KWHP,asos,Whiteman,34.25933,-118.41343,306,America/Los_Angeles,false,,1,slot,true
 asos:KEMT,asos,El Monte,34.086,-118.035,90,America/Los_Angeles,false,,1,slot,true
+asos:KMIA,asos,Miami Intl,25.796,-80.287,2,America/New_York,true,CLIMIA,1,deep,true
+asos:KMDW,asos,Chicago Midway,41.786,-87.752,188,America/Chicago,true,CLIMDW,1,deep,true
+asos:KAUS,asos,Austin Bergstrom,30.197,-97.669,146,America/Chicago,true,CLIAUS,1,deep,true
+asos:KDCA,asos,Washington National,38.852,-77.038,4,America/New_York,true,CLIDCA,1,deep,true
+asos:KNYC,asos,New York Central Park,40.779,-73.969,47,America/New_York,true,CLINYC,1,deep,true
