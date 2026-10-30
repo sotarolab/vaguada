@@ -22,7 +22,7 @@ jobs:
         run: ruff check .
 
       - name: Types
-        run: mypy -p stationcast
+        run: mypy -p camanchaca_demo
 
       - name: Import contract
         run: lint-imports

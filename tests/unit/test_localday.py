@@ -7,7 +7,7 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from stationcast import localday
+from camanchaca_demo import localday
 
 ZONES = [
     "America/New_York",

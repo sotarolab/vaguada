@@ -45,7 +45,7 @@ gates and review.
 
 ```
 pyproject.toml            one install; extras [service] [dev]
-src/stationcast/
+src/camanchaca-demo/
   config.py               settings from env, validated once
   localday.py             local day, slots, lead, targets per slot
   ingest/                 one module per feed; typed frames; never raises; heartbeat
@@ -65,7 +65,7 @@ Dependencies point down only; `.importlinter` enforces it in CI.
 
 ## Database
 
-Postgres on Neon, schema `stationcast`, Alembic. Append-only except `stations` (by hand)
+Postgres on Neon, schema `camanchaca_demo`, Alembic. Append-only except `stations` (by hand)
 and the derived `scores` and `scorecard`.
 
 ```

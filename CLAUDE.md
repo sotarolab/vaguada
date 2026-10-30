@@ -1,4 +1,4 @@
-# stationcast
+# camanchaca-demo
 
 A station-level forecasting service for the daily high and low. Every forecast is stored
 before settlement and scored nightly against the official climate report, the raw models,
@@ -10,7 +10,7 @@ table are in `docs/ARCHITECTURE.md`.
 
 - **Point in time, always.** Every stored row has `valid_at` and `received_at`, UTC,
   tz-aware. Every read takes `as_of` and returns rows with `received_at <= as_of`. A
-  correction is a new row. Local day is derived in `stationcast.localday` and nowhere else.
+  correction is a new row. Local day is derived in `camanchaca_demo.localday` and nowhere else.
 - **One path.** The function that forecasts today at a slot is the function the backtest
   calls for a slot last month.
 - **Nothing computes at request time.** Jobs write tables; routes read tables.
@@ -32,12 +32,12 @@ table are in `docs/ARCHITECTURE.md`.
 
 ```bash
 pip install -e ".[dev,service]"      # one install
-ruff check . && mypy -p stationcast && lint-imports
+ruff check . && mypy -p camanchaca_demo && lint-imports
 pytest -v
 alembic upgrade head                  # needs DATABASE_URL
 python scripts/ingest.py --now        # the hourly job; --slot and --stations for one run
 python scripts/score.py               # settle closed days, score, rebuild the scorecard
-uvicorn stationcast.serve.app:app --reload
+uvicorn camanchaca_demo.serve.app:app --reload
 ```
 
 ## Skills

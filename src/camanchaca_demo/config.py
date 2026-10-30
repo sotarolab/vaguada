@@ -16,8 +16,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     database_url: str | None = Field(default=None, description="Postgres DSN; None disables it")
-    db_schema: str = Field(default="stationcast", description="Schema holding every table")
-    user_agent: str = Field(default="stationcast/0.1 (research use)")
+    db_schema: str = Field(default="camanchaca_demo", description="Schema holding every table")
+    user_agent: str = Field(default="camanchaca-demo/0.1 (research use)")
     http_timeout_s: float = Field(default=30.0, gt=0)
     vendor_api_key: str | None = Field(default=None, description="Vendor feed key; None skips it")
 

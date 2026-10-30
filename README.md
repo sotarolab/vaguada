@@ -1,4 +1,4 @@
-# stationcast
+# camanchaca-demo
 
 A station-level forecasting service for the daily high and low. Every forecast is stored
 before the day settles and scored every night against the official climate report, the raw

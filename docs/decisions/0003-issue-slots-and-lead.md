@@ -21,7 +21,7 @@ displays by slot name and days ahead. Baselines are sampled at the same slots th
 point-in-time read, so every column saw the same information. One training sample per
 station, day and slot, with lead as a feature.
 
-All of this lives in `stationcast.localday` and nowhere else, with a property test across
+All of this lives in `camanchaca_demo.localday` and nowhere else, with a property test across
 every station time zone and the DST transitions of 2025 to 2027.
 
 ## Consequences

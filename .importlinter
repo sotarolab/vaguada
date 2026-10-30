@@ -1,5 +1,5 @@
 [importlinter]
-root_package = stationcast
+root_package = camanchaca_demo
 include_external_packages = True
 
 # Dependencies point down only. A layer may import the layers below it, never above.
@@ -8,26 +8,26 @@ include_external_packages = True
 name = Layers run one way
 type = layers
 layers =
-    stationcast.serve
-    stationcast.evaluate
-    stationcast.forecast
-    stationcast.features | stationcast.ingest
-    stationcast.store
-    stationcast.localday | stationcast.config
+    camanchaca_demo.serve
+    camanchaca_demo.evaluate
+    camanchaca_demo.forecast
+    camanchaca_demo.features | camanchaca_demo.ingest
+    camanchaca_demo.store
+    camanchaca_demo.localday | camanchaca_demo.config
 
 # Features are pure: a frame in, a frame out. No store, no network, no settings.
 [importlinter:contract:features-are-pure]
 name = Features touch pandas and the local-day module only
 type = forbidden
 source_modules =
-    stationcast.features
+    camanchaca_demo.features
 forbidden_modules =
-    stationcast.store
-    stationcast.ingest
-    stationcast.config
-    stationcast.serve
-    stationcast.evaluate
-    stationcast.forecast
+    camanchaca_demo.store
+    camanchaca_demo.ingest
+    camanchaca_demo.config
+    camanchaca_demo.serve
+    camanchaca_demo.evaluate
+    camanchaca_demo.forecast
     httpx
     sqlalchemy
     requests

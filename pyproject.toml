@@ -3,7 +3,7 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "stationcast"
+name = "camanchaca-demo"
 version = "0.1.0"
 description = "Station-level daily high and low forecasts, stored before settlement and scored nightly against the official climate report, the raw models and the NWS."
 readme = "README.md"
