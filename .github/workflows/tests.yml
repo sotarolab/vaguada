@@ -29,3 +29,40 @@ jobs:
 
       - name: Tests
         run: pytest -v
+
+  client:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install the service
+        run: pip install -e ".[service]"
+
+      - name: Generated types are current
+        run: |
+          python scripts/openapi.py > client/openapi.json
+          git diff --exit-code client/openapi.json
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: client/package-lock.json
+
+      - name: Install the client
+        working-directory: client
+        run: npm ci --no-audit --no-fund
+
+      - name: Types, lint, build
+        working-directory: client
+        run: |
+          npx openapi-typescript openapi.json -o src/api/types.ts
+          git diff --exit-code src/api/types.ts
+          npx tsc --noEmit -p tsconfig.json
+          npx oxlint src
+          npx vite build

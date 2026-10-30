@@ -36,7 +36,9 @@ pytest -v
 alembic upgrade head                  # needs DATABASE_URL
 python scripts/ingest.py --now        # the hourly job; --stations and --force for one run
 python scripts/score.py               # settle closed days, score, rebuild the scorecard
-uvicorn camanchaca_demo.serve.app:app --reload
+uvicorn camanchaca_demo.serve.app:app --port 8070   # the API; serves client/dist at /
+cd client && npm ci && npm run types && npm run build  # the page; npm run dev proxies /api
+python scripts/openapi.py > client/openapi.json       # after any change to serve/models.py
 ```
 
 ## Skills

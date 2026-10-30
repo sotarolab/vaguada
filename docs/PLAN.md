@@ -27,6 +27,7 @@ gates and review.
 | Model set | GFS, ECMWF IFS, ICON (global); HRRR, NBM (CONUS); the NWS; vendor APIs | this file |
 | Open source | All code public. Private inputs (dense station networks, keys) enter by configuration; every forecaster implements one `Forecaster` protocol | 0001 |
 | Frontend | React, TypeScript, uPlot, ported station page; scorecard, discussion, profile panes | this file |
+| Learning | A journal a person writes per day, a derived day summary with regime features, analog days as a read | 0006 |
 
 ## Rules
 
@@ -88,6 +89,11 @@ predictions   forecaster, version, station_id, target, local_day, as_of, receive
 scores        forecaster, version, station_id, target, local_day, lead_h,
               mae, crps, brier jsonb, bracket_brier, covered_90, computed_at
 scorecard     forecaster, version, target, lead_h, period, n, mae, bias, built_at
+journal       station_id, local_day, created_at, uncertainty, tags, text
+              PK (station_id, local_day, created_at); append-only; the page's one write
+day_summary   station_id, local_day, tmax, tmin, errors jsonb, spread jsonb,
+              market_error, regime jsonb, built_at
+              PK (station_id, local_day); derived, rebuilt nightly
 heartbeat     feed, last_success, last_error, rows
 ```
 
@@ -109,6 +115,9 @@ heartbeat     feed, last_success, last_error, rows
    rejection. The code is here; a network that is not public enters by configuration.
 5. Observation impact as a scorecard row: any observation source added to a forecaster is
    scored with and without it, by lead. That is the only kind of assimilation claimed.
+6. Learning from each day: the journal, the day summary with regime features, and the
+   analog read that answers "what happened last time it looked like this", for the page and
+   for the assistant.
 
 ## Order of work
 
@@ -120,14 +129,16 @@ heartbeat     feed, last_success, last_error, rows
    hourly job; the lookahead property test.
 3. **Features and baselines.** Person-written tests first; daily extremes; running extreme;
    `Forecaster` protocol; raw-model and persistence baselines; `issue()`.
-4. **Evaluate.** Settle, score, scorecard; golden backtest committed; the hourly cron on.
+4. **Evaluate.** Settle, score, scorecard, day summary; golden backtest committed; the
+   hourly cron on.
    Any wider station set is more rows in `data/stations.csv`, added when wanted.
 5. **Serve and client.** Routes, OpenAPI types, the station map, the station page with
    scorecard, discussion and profile panes; the scorecard across stations.
 6. **Public models and thresholds.** Consensus and the boosted model, with bands and the
    live coverage monitor; the first rows in `docs/EXPERIMENTS.md`.
 7. **MCP server.** `forecast`, `observations`, `scorecard`, `profile`, `discussion`,
-   `backtest`, all taking `as_of`; an agent runs the engines over these tools.
+   `journal`, `analogs`, `backtest`, all taking `as_of`; an agent runs the engines over
+   these tools and flags a forecast against its analog days.
 8. **More deep stations.** A column edit each; then the pooled model across them.
 
 Targets after the high and low, in order: daily precipitation from the same climate

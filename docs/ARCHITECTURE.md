@@ -41,3 +41,12 @@ of non-null `temperature_2m` in a 7-day request.
   predictions against settlements, rebuilds `scores` and `scorecard`.
 - Both run from `.github/workflows/slots.yml` with the database URL as a repository secret,
   and locally with the same commands.
+
+## Service and page
+
+`camanchaca_demo.serve.app` is FastAPI. Routes read tables: `/healthz` (per-feed heartbeat),
+`/api/stations`, `/api/station/{id}` (the whole station page in one response, temperatures
+in Fahrenheit, time series as columnar arrays), `/api/journal/{id}` and `POST /api/journal`,
+the one write route (decision 0006). The client is Vite, React and uPlot under `client/`;
+its API types are generated from the service's OpenAPI schema and CI fails on a stale copy.
+The built page is served by the service at `/`.

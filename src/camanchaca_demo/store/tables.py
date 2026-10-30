@@ -39,6 +39,8 @@ class Tables:
     scores: Table
     scorecard: Table
     heartbeat: Table
+    journal: Table
+    day_summary: Table
 
 
 def build_tables(schema: str) -> Tables:
@@ -188,6 +190,31 @@ def build_tables(schema: str) -> Tables:
         Column("updated_at", ts, nullable=False),
     )
 
+    journal = Table(
+        "journal",
+        md,
+        Column("station_id", String, primary_key=True),
+        Column("local_day", Date, primary_key=True),
+        Column("created_at", ts, primary_key=True),
+        Column("uncertainty", SmallInteger),
+        Column("tags", ARRAY(String), nullable=False, default=list),
+        Column("text", Text, nullable=False, default=""),
+    )
+
+    day_summary = Table(
+        "day_summary",
+        md,
+        Column("station_id", String, primary_key=True),
+        Column("local_day", Date, primary_key=True),
+        Column("tmax", REAL),
+        Column("tmin", REAL),
+        Column("errors", JSONB),
+        Column("spread", JSONB),
+        Column("market_error", REAL),
+        Column("regime", JSONB),
+        Column("built_at", ts, nullable=False),
+    )
+
     return Tables(
         metadata=md,
         stations=stations,
@@ -200,4 +227,6 @@ def build_tables(schema: str) -> Tables:
         scores=scores,
         scorecard=scorecard,
         heartbeat=heartbeat,
+        journal=journal,
+        day_summary=day_summary,
     )

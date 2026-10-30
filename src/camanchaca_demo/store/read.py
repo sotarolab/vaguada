@@ -48,6 +48,10 @@ class Store(Protocol):
         self, station_id: str, as_of: datetime, days: list[date] | None = None
     ) -> pd.DataFrame: ...
     def markets(self, station_id: str, local_day: date, as_of: datetime) -> pd.DataFrame: ...
+    def latest_product(self, pil: str, as_of: datetime) -> dict[str, Any] | None: ...
+    def heartbeats(self) -> pd.DataFrame: ...
+    def write_journal(self, row: dict[str, Any]) -> int: ...
+    def journal(self, station_id: str, as_of: datetime, limit: int = 60) -> pd.DataFrame: ...
 
 
 FAR_FUTURE = datetime(2100, 1, 1, tzinfo=UTC)
@@ -240,6 +244,40 @@ class PgStore:
         )
         return self._frame(stmt)
 
+    def latest_product(self, pil: str, as_of: datetime) -> dict[str, Any] | None:
+        p = self.t.products
+        stmt = (
+            select(p)
+            .where(p.c.pil == pil, p.c.received_at <= as_of, p.c.issued_at <= as_of)
+            .order_by(p.c.issued_at.desc())
+            .limit(1)
+        )
+        df = self._frame(stmt)
+        return None if df.empty else cast(dict[str, Any], df.iloc[0].to_dict())
+
+    def heartbeats(self) -> pd.DataFrame:
+        return self._frame(select(self.t.heartbeat).order_by(self.t.heartbeat.c.feed))
+
+    def write_journal(self, row: dict[str, Any]) -> int:
+        with self.engine.begin() as conn:
+            res = conn.execute(
+                insert(self.t.journal)
+                .on_conflict_do_nothing()
+                .returning(self.t.journal.c.station_id),
+                [row],
+            )
+            return len(res.fetchall())
+
+    def journal(self, station_id: str, as_of: datetime, limit: int = 60) -> pd.DataFrame:
+        j = self.t.journal
+        stmt = (
+            select(j)
+            .where(j.c.station_id == station_id, j.c.created_at <= as_of)
+            .order_by(j.c.local_day.desc(), j.c.created_at.desc())
+            .limit(limit)
+        )
+        return self._frame(stmt)
+
 
 # ---------------------------------------------------------------------------- in memory
 
@@ -264,6 +302,7 @@ class FrameStore:
     settle: pd.DataFrame = field(default_factory=lambda: schemas.empty(schemas.SETTLEMENT_COLUMNS))
     mkts: pd.DataFrame = field(default_factory=lambda: schemas.empty(schemas.MARKET_COLUMNS))
     preds: list[dict[str, Any]] = field(default_factory=list)
+    notes: list[dict[str, Any]] = field(default_factory=list)
     beats: dict[str, dict[str, Any]] = field(default_factory=dict)
     station_rows: pd.DataFrame = field(
         default_factory=lambda: schemas.empty(schemas.STATION_COLUMNS)
@@ -398,3 +437,26 @@ class FrameStore:
             (k.station_id == station_id) & (k.local_day == local_day) & (k.received_at <= as_of)
         ]
         return _latest(sel, ["ticker"], order="as_of")
+
+    def latest_product(self, pil: str, as_of: datetime) -> dict[str, Any] | None:
+        p = self.products
+        sel = p[(p.pil == pil) & (p.received_at <= as_of) & (p.issued_at <= as_of)]
+        if sel.empty:
+            return None
+        return cast(dict[str, Any], sel.sort_values("issued_at").iloc[-1].to_dict())
+
+    def heartbeats(self) -> pd.DataFrame:
+        return pd.DataFrame(list(self.beats.values()))
+
+    def write_journal(self, row: dict[str, Any]) -> int:
+        key = (row["station_id"], row["local_day"], row["created_at"])
+        if any((e["station_id"], e["local_day"], e["created_at"]) == key for e in self.notes):
+            return 0
+        self.notes.append(dict(row))
+        return 1
+
+    def journal(self, station_id: str, as_of: datetime, limit: int = 60) -> pd.DataFrame:
+        rows = [e for e in self.notes if e["station_id"] == station_id and e["created_at"] <= as_of]
+        rows.sort(key=lambda e: (e["local_day"], e["created_at"]), reverse=True)
+        cols = ["station_id", "local_day", "created_at", "uncertainty", "tags", "text"]
+        return pd.DataFrame(rows[:limit], columns=cols)
