@@ -34,7 +34,7 @@ pip install -e ".[dev,service]"      # one install
 ruff check . && mypy -p camanchaca_demo && lint-imports
 pytest -v
 alembic upgrade head                  # needs DATABASE_URL
-python scripts/ingest.py --now        # the hourly job; --slot and --stations for one run
+python scripts/ingest.py --now        # the hourly job; --stations and --force for one run
 python scripts/score.py               # settle closed days, score, rebuild the scorecard
 uvicorn camanchaca_demo.serve.app:app --reload
 ```

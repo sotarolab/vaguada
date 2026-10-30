@@ -20,7 +20,9 @@ in place. `stations` is edited by hand. Every other table is append-only.
 
 ## Consequences
 
-Reads use a window or `DISTINCT ON` and are slightly more expensive. A day can be settled
+Reads use `DISTINCT ON` and are slightly more expensive. A re-fetch that returns the same
+value adds no row; only a changed value is a correction, so the hourly job can re-read a
+window of recent hours without growing the table. A day can be settled
 provisionally at the preliminary report and re-scored at the final one, and the scorecard
 can show both. The lookahead property test covers corrections directly.
 
