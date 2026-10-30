@@ -21,9 +21,11 @@ Every stored row has `valid_at` and `received_at`; every read takes `as_of`. A p
 is written at its issue slot and never changed. Scheduled jobs write tables; routes read
 tables; the client computes nothing. Feeds never raise.
 
-One station first, Los Angeles International, ingested deep: every model run hourly,
-pressure-level profiles, the NWS hourly grid, the forecast discussion, vendor forecasts. A
-station is a row in `stations`; adding one is data, not code.
+Every ASOS station in the network is ingested at slot depth (latest run per model per
+slot, the NWS grid, hourly observations, the climate report) and scored. Selected stations
+are ingested deep: every model run hourly, pressure-level profiles, the forecast
+discussion, vendor forecasts, and the corrected forecasters. Depth is a column on the
+station row. Los Angeles International is the first deep station.
 
 The public repository is the instrument and the record: feeds, store, baselines, scoring,
 routes, client. Forecasters beyond the baselines implement the public `Forecaster` protocol
@@ -33,7 +35,7 @@ their code is not.
 ## Consequences
 
 Backtests and live runs share one function per forecaster. Lookahead is impossible by
-construction and tested as a property. Early scorecards are thin, one station's rows, and
+construction and tested as a property. Early scorecards are thin on days, if not on stations, and
 say so. The client is a port of an existing station page, with scorecard, discussion and
 profile panes.
 
@@ -41,5 +43,5 @@ profile panes.
 
 - Restructure the predecessor repository in place: its history and modules served a
   different product and would have coexisted with the new package under extra contracts.
-- Many stations shallow: the breadth claim is available later by adding rows; depth at one
-  station is what a forecaster needs on screen.
+- One station only: a forecaster needs depth on screen, but the national table of raw
+  models against the NWS is the claim nobody else publishes, and slot depth makes it cheap.

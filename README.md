@@ -2,7 +2,8 @@
 
 A station-level forecasting service for the daily high and low. Every forecast is stored
 before the day settles and scored every night against the official climate report, the raw
-models, the NWS forecast and a vendor. The first station is Los Angeles International.
+models, the NWS forecast and vendors. Every ASOS station in the network is scored; selected
+stations are followed in depth, Los Angeles International first.
 
 Status: day one. There is a plan, a set of decisions, a local-day module with its tests and
 the gates that every later change passes. Nothing forecasts yet.

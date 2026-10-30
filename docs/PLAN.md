@@ -2,9 +2,11 @@
 
 Written 2026-10-29. A public, year-round, station-level forecasting service for the daily
 high and low, with every forecast stored before settlement and scored every night against
-the official climate report, the raw models, the NWS forecast and vendor forecasts. One
-station first, Los Angeles International, ingested deep. A station is a row; the second
-one is data, not code.
+the official climate report, the raw models, the NWS forecast and vendor forecasts. Every
+ASOS station in the network is ingested at slot depth and scored; selected stations are
+ingested deep, with every model run, profiles, the discussion and vendor forecasts, and
+carry the corrected forecasters. Los Angeles International is the first deep station.
+Depth is a column on the station row, not a branch of the code.
 
 Two things come out of it. A verified record at station level, which nobody publishes for
 free, and a repository whose history shows an AI building a scored service under tests,
@@ -18,7 +20,7 @@ gates and review.
 | Keys | `received_at` in the key of observations and settlements; corrections are rows | 0002 |
 | Issue cadence | Fixed local slots 00/06/12/18; lead to end of local day; evening slot to day 5 | 0003 |
 | Model runs | One row per run and variable, horizon as an array; profiles as variables | 0004 |
-| Station | KLAX first; every run kept hourly; profiles, NWS hourly grid, discussion, vendors | 0001 |
+| Stations | All 165 ASOS stations at slot depth; depth is a station attribute; KLAX deep first | 0001 |
 | Model set | GFS, ECMWF IFS, ICON (global); HRRR, NBM (CONUS); the NWS; vendor APIs | this file |
 | Public science | Daily extremes and baselines public; other forecasters private behind the protocol | 0001 |
 | Frontend | React, TypeScript, uPlot, ported station page; scorecard, discussion, profile panes | this file |
@@ -65,7 +67,7 @@ and the derived `scores` and `scorecard`.
 
 ```
 stations      station_id, network, name, lat, lon, elev, tz, settles, settlement_source,
-              tier, active
+              tier, depth (slot | deep), active
 observations  station_id, valid_at, received_at, source, var, value, precision
               PK (station_id, valid_at, source, var, received_at)
 model_runs    model, station_id, run_at, received_at, source, var, step_h, values float4[]
@@ -107,12 +109,13 @@ heartbeat     feed, last_success, last_error, rows
 3. **Features and baselines.** Person-written tests first; daily extremes; running extreme;
    `Forecaster` protocol; raw-model and persistence baselines; `issue()`.
 4. **Evaluate.** Settle, score, scorecard; golden backtest committed; the hourly cron on.
-5. **Serve and client.** Routes, OpenAPI types, the station page with scorecard,
-   discussion and profile panes.
+   Then the flip: every ASOS station seeded at slot depth once the seed set passes QC.
+5. **Serve and client.** Routes, OpenAPI types, the station map, the station page with
+   scorecard, discussion and profile panes; the national scorecard view.
 6. **Public model and thresholds.** Consensus with bands and the live coverage monitor.
 7. **MCP server.** `forecast`, `observations`, `scorecard`, `profile`, `discussion`,
    `backtest`, all taking `as_of`; an agent runs the engines over these tools.
-8. **More stations.** Rows, then the pooled model.
+8. **More deep stations.** A column edit each; then the pooled model across them.
 
 Targets after the high and low, in order: daily precipitation from the same climate
 report, then hourly visibility and ceiling categories settled on METARs.
