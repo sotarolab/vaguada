@@ -1,0 +1,33 @@
+[importlinter]
+root_package = stationcast
+include_external_packages = True
+
+# Dependencies point down only. A layer may import the layers below it, never above.
+# Layers on one line separated by | are independent of each other.
+[importlinter:contract:layers]
+name = Layers run one way
+type = layers
+layers =
+    stationcast.serve
+    stationcast.evaluate
+    stationcast.forecast
+    stationcast.features | stationcast.ingest
+    stationcast.store
+    stationcast.localday | stationcast.config
+
+# Features are pure: a frame in, a frame out. No store, no network, no settings.
+[importlinter:contract:features-are-pure]
+name = Features touch pandas and the local-day module only
+type = forbidden
+source_modules =
+    stationcast.features
+forbidden_modules =
+    stationcast.store
+    stationcast.ingest
+    stationcast.config
+    stationcast.serve
+    stationcast.evaluate
+    stationcast.forecast
+    httpx
+    sqlalchemy
+    requests
