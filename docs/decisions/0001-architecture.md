@@ -21,11 +21,12 @@ Every stored row has `valid_at` and `received_at`; every read takes `as_of`. A p
 is written at its issue slot and never changed. Scheduled jobs write tables; routes read
 tables; the client computes nothing. Feeds never raise.
 
-Every ASOS station in the network is ingested at slot depth (latest run per model per
-slot, the NWS grid, hourly observations, the climate report) and scored. Selected stations
-are ingested deep: every model run hourly, pressure-level profiles, the forecast
-discussion, vendor forecasts, and the corrected forecasters. Depth is a column on the
-station row. Los Angeles International is the first deep station.
+Stations are rows in `data/stations.csv` with a depth column. Slot depth means the latest
+run per model per slot, the NWS grid, hourly observations and the climate report where one
+exists. Deep means every model run hourly, pressure-level profiles, the forecast
+discussion, vendor forecasts and the corrected forecasters. The first set is Los Angeles
+International, deep, and the thirteen other ASOS stations of the Los Angeles basin at slot
+depth, which are the public neighbour ring. A wider set is more rows.
 
 The public repository is the instrument and the record: feeds, store, baselines, scoring,
 routes, client. Forecasters beyond the baselines implement the public `Forecaster` protocol
@@ -43,5 +44,6 @@ profile panes.
 
 - Restructure the predecessor repository in place: its history and modules served a
   different product and would have coexisted with the new package under extra contracts.
-- One station only: a forecaster needs depth on screen, but the national table of raw
-  models against the NWS is the claim nobody else publishes, and slot depth makes it cheap.
+- One station only: the spatial stage and the map need neighbours from day one.
+- Every ASOS station in the network: cheap at slot depth, but a decision that can be made
+  later by adding rows, and nothing in the first months needs it.

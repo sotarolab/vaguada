@@ -2,11 +2,12 @@
 
 Written 2026-10-29. A public, year-round, station-level forecasting service for the daily
 high and low, with every forecast stored before settlement and scored every night against
-the official climate report, the raw models, the NWS forecast and vendor forecasts. Every
-ASOS station in the network is ingested at slot depth and scored; selected stations are
-ingested deep, with every model run, profiles, the discussion and vendor forecasts, and
-carry the corrected forecasters. Los Angeles International is the first deep station.
-Depth is a column on the station row, not a branch of the code.
+the official climate report, the raw models, the NWS forecast and vendor forecasts. Stations
+are rows in `data/stations.csv`. The first set is Los Angeles International, ingested deep
+with every model run, profiles, the discussion and vendor forecasts, and the thirteen other
+ASOS stations of the Los Angeles basin at slot depth, eight of which settle on their own
+climate report and six of which are observation-only neighbours. Depth and settlement are
+columns on the row, not branches of the code. A wider set is more rows.
 
 Two things come out of it. A verified record at station level, which nobody publishes for
 free, and a repository whose history shows an AI building a scored service under tests,
@@ -20,7 +21,7 @@ gates and review.
 | Keys | `received_at` in the key of observations and settlements; corrections are rows | 0002 |
 | Issue cadence | Fixed local slots 00/06/12/18; lead to end of local day; evening slot to day 5 | 0003 |
 | Model runs | One row per run and variable, horizon as an array; profiles as variables | 0004 |
-| Stations | All 165 ASOS stations at slot depth; depth is a station attribute; KLAX deep first | 0001 |
+| Stations | Rows in `data/stations.csv`; KLAX deep plus the 13 ASOS stations of the Los Angeles basin at slot depth; depth and settlement are columns | 0001 |
 | Model set | GFS, ECMWF IFS, ICON (global); HRRR, NBM (CONUS); the NWS; vendor APIs | this file |
 | Public science | Daily extremes and baselines public; other forecasters private behind the protocol | 0001 |
 | Frontend | React, TypeScript, uPlot, ported station page; scorecard, discussion, profile panes | this file |
@@ -109,9 +110,9 @@ heartbeat     feed, last_success, last_error, rows
 3. **Features and baselines.** Person-written tests first; daily extremes; running extreme;
    `Forecaster` protocol; raw-model and persistence baselines; `issue()`.
 4. **Evaluate.** Settle, score, scorecard; golden backtest committed; the hourly cron on.
-   Then the flip: every ASOS station seeded at slot depth once the seed set passes QC.
+   Any wider station set is more rows in `data/stations.csv`, added when wanted.
 5. **Serve and client.** Routes, OpenAPI types, the station map, the station page with
-   scorecard, discussion and profile panes; the national scorecard view.
+   scorecard, discussion and profile panes; the scorecard across stations.
 6. **Public model and thresholds.** Consensus with bands and the live coverage monitor.
 7. **MCP server.** `forecast`, `observations`, `scorecard`, `profile`, `discussion`,
    `backtest`, all taking `as_of`; an agent runs the engines over these tools.

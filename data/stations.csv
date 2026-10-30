@@ -1,0 +1,15 @@
+station_id,network,name,lat,lon,elev_m,tz,settles,settlement_source,tier,depth,active
+asos:KLAX,asos,Los Angeles Intl,33.93816,-118.38653,32,America/Los_Angeles,true,CLILAX,1,deep,true
+asos:KLGB,asos,Long Beach,33.81179,-118.14716,12,America/Los_Angeles,true,CLILGB,1,slot,true
+asos:KBUR,asos,Burbank,34.20067,-118.35867,236,America/Los_Angeles,true,CLIBUR,1,slot,true
+asos:KFUL,asos,Fullerton,33.87,-117.98,29,America/Los_Angeles,true,CLIFUL,1,slot,true
+asos:KSNA,asos,Santa Ana,33.67567,-117.86822,16,America/Los_Angeles,true,CLISNA,1,slot,true
+asos:KONT,asos,Ontario,34.056,-117.60119,287,America/Los_Angeles,true,CLIONT,1,slot,true
+asos:KCQT,asos,Los Angeles Downtown,34.02354,-118.29121,56,America/Los_Angeles,true,CLICQT,1,slot,true
+asos:KCNO,asos,Chino,33.97528,-117.63611,198,America/Los_Angeles,true,CLICNO,1,slot,true
+asos:KSMO,asos,Santa Monica,34.021,-118.44708,53,America/Los_Angeles,false,,1,slot,true
+asos:KHHR,asos,Hawthorne,33.92284,-118.33519,19,America/Los_Angeles,false,,1,slot,true
+asos:KTOA,asos,Torrance,33.80339,-118.33961,31,America/Los_Angeles,false,,1,slot,true
+asos:KVNY,asos,Van Nuys,34.20972,-118.48917,244,America/Los_Angeles,false,,1,slot,true
+asos:KWHP,asos,Whiteman,34.25933,-118.41343,306,America/Los_Angeles,false,,1,slot,true
+asos:KEMT,asos,El Monte,34.086,-118.035,90,America/Los_Angeles,false,,1,slot,true
