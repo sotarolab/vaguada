@@ -25,7 +25,7 @@ gates and review.
 | Stations | Rows in `data/stations.csv`; six deep stations in different regimes (KLAX, KMIA, KMDW, KAUS, KNYC, KDCA) plus the Los Angeles basin ring at slot depth | 0001, 0005 |
 | Markets | Public bracket prices sampled at slots; market-implied probability is a scorecard baseline; nothing that trades enters | 0005 |
 | Model set | GFS, ECMWF IFS, ICON (global); HRRR, NBM (CONUS); the NWS; vendor APIs | this file |
-| Public science | Daily extremes and baselines public; other forecasters private behind the protocol | 0001 |
+| Public science | Daily extremes, baselines and two basic models public; richer forecasters private behind the protocol | 0001 |
 | Frontend | React, TypeScript, uPlot, ported station page; scorecard, discussion, profile panes | this file |
 
 ## Rules
@@ -95,14 +95,17 @@ heartbeat     feed, last_success, last_error, rows
 
 1. Baselines: each raw model's daily extreme, the NWS, each vendor, persistence,
    climatology. Published before any model.
-2. A readable public model: inverse-MAE weighted consensus of the raw models with
-   per-station bias and conformal bands. Coverage is monitored live: `covered_90` per lead
+2. Two public models, open source and read line by line: an inverse-MAE weighted consensus
+   of the raw models with per-station bias and conformal bands, and a small gradient-boosted
+   quantile model on public features only (the raw models, their spread, lead, the running
+   extreme), pooled across stations with conformal bands. Coverage is monitored live: `covered_90` per lead
    bucket over a trailing 30 days must stay within 85 to 95, and a breach fails the nightly job.
 3. Threshold and bracket events from the first scorer: crossing probabilities at fixed
    thresholds and bracket probabilities where a market exists, scored with Brier and a
    reliability table. Point forecasts are scored on brackets through their own empirical
    error distribution from the record. The market-implied probability is a column.
-4. Private forecasters behind the `Forecaster` protocol. Their rows and scores are public.
+4. Private forecasters behind the `Forecaster` protocol, with features the public repo does
+   not have (neighbour networks, profiles, a bias filter). Their rows and scores are public.
 5. Observation impact as a scorecard row: any observation source added to a forecaster is
    scored with and without it, by lead. That is the only kind of assimilation claimed.
 
@@ -120,7 +123,8 @@ heartbeat     feed, last_success, last_error, rows
    Any wider station set is more rows in `data/stations.csv`, added when wanted.
 5. **Serve and client.** Routes, OpenAPI types, the station map, the station page with
    scorecard, discussion and profile panes; the scorecard across stations.
-6. **Public model and thresholds.** Consensus with bands and the live coverage monitor.
+6. **Public models and thresholds.** Consensus and the boosted model, with bands and the
+   live coverage monitor; the first rows in `docs/EXPERIMENTS.md`.
 7. **MCP server.** `forecast`, `observations`, `scorecard`, `profile`, `discussion`,
    `backtest`, all taking `as_of`; an agent runs the engines over these tools.
 8. **More deep stations.** A column edit each; then the pooled model across them.

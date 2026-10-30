@@ -19,9 +19,9 @@ table are in `docs/ARCHITECTURE.md`.
 - **Feeds never raise.** Empty typed frame on failure, heartbeat row written.
 - **A feature ships only with a line on the scorecard.**
 - **Science is read by a person.** `features/` and `forecast/` stay small; their tests are
-  written first, by a person, as the claim the code must meet. Forecasters beyond the
-  baselines live in private packages behind the `Forecaster` protocol; their scores are
-  public, their code is not.
+  written first, by a person, as the claim the code must meet. The baselines and two basic
+  models are public; forecasters with richer inputs live in private packages behind the
+  `Forecaster` protocol, their scores public, their code not.
 - **Numbers exist only as CI output.** A metric is a row in `docs/EXPERIMENTS.md` with its
   commit, or it is not a result.
 - **ADRs at decision time**, one page, dated, in `docs/decisions/`.
