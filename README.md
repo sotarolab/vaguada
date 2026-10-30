@@ -22,6 +22,9 @@ recorded the day they are made. The science modules are small enough to be read 
 line, and their tests are written first by a person. A metric is a result only when it is a
 row in `docs/EXPERIMENTS.md` with the commit that produced it.
 
+All of the code is here, the models included. What is not here is credentials and data
+that are not public.
+
 ## License
 
 MIT.

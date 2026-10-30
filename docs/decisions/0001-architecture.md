@@ -28,10 +28,10 @@ discussion, vendor forecasts and the corrected forecasters. The first set is Los
 International, deep, and the thirteen other ASOS stations of the Los Angeles basin at slot
 depth, which are the public neighbour ring. A wider set is more rows.
 
-The public repository is the instrument, the record and the basic science: feeds, store,
-baselines, two small public models, scoring, routes, client. Forecasters with richer
-inputs implement the public `Forecaster` protocol from private packages and write to the
-same `predictions` table. Their scores are public; their code is not.
+All code is public: feeds, store, baselines, models, scoring, routes, client. Every
+forecaster implements one `Forecaster` protocol and writes to the same `predictions`
+table. What stays outside the repository is data and credentials: a station network that
+is not public enters by configuration, and nothing that trades is part of this project.
 
 ## Consequences
 

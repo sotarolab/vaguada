@@ -25,7 +25,7 @@ gates and review.
 | Stations | Rows in `data/stations.csv`; six deep stations in different regimes (KLAX, KMIA, KMDW, KAUS, KNYC, KDCA) plus the Los Angeles basin ring at slot depth | 0001, 0005 |
 | Markets | Public bracket prices sampled at slots; market-implied probability is a scorecard baseline; nothing that trades enters | 0005 |
 | Model set | GFS, ECMWF IFS, ICON (global); HRRR, NBM (CONUS); the NWS; vendor APIs | this file |
-| Public science | Daily extremes, baselines and two basic models public; richer forecasters private behind the protocol | 0001 |
+| Open source | All code public. Private inputs (dense station networks, keys) enter by configuration; every forecaster implements one `Forecaster` protocol | 0001 |
 | Frontend | React, TypeScript, uPlot, ported station page; scorecard, discussion, profile panes | this file |
 
 ## Rules
@@ -104,8 +104,9 @@ heartbeat     feed, last_success, last_error, rows
    thresholds and bracket probabilities where a market exists, scored with Brier and a
    reliability table. Point forecasts are scored on brackets through their own empirical
    error distribution from the record. The market-implied probability is a column.
-4. Private forecasters behind the `Forecaster` protocol, with features the public repo does
-   not have (neighbour networks, profiles, a bias filter). Their rows and scores are public.
+4. Richer forecasters behind the same `Forecaster` protocol: neighbour networks as spatial
+   features, model profiles, a state-space bias filter with ensemble spread and outlier
+   rejection. The code is here; a network that is not public enters by configuration.
 5. Observation impact as a scorecard row: any observation source added to a forecaster is
    scored with and without it, by lead. That is the only kind of assimilation claimed.
 
