@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { api } from './api/client'
 import { useFetch } from './hooks/useFetch'
 import { StationChart } from './components/StationChart'
-import { BracketsPane, DailyPane, DiscussionPane, JournalPane, ProfilePane, SettlementsPane } from './components/Panes'
+import { BracketsPane, DailyPane, DiscussionPane, ForecastsPane, JournalPane, ProfilePane, SettlementsPane } from './components/Panes'
 
 const REFRESH_MS = 5 * 60 * 1000
 
@@ -41,6 +41,10 @@ export default function App() {
           <section className="panel">
             <div className="panel-h"><h2>Temperature · observed and every model's latest run</h2></div>
             <StationChart page={p} />
+          </section>
+          <section className="panel">
+            <div className="panel-h"><h2>Forecasts · every forecaster's latest issue</h2></div>
+            <ForecastsPane page={p} />
           </section>
           <section className="panel">
             <div className="pgrid">

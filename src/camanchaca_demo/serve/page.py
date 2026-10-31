@@ -3,7 +3,7 @@ arithmetic, and it lives here so the client draws what it is given."""
 
 from __future__ import annotations
 
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from typing import Any
 
 import pandas as pd
@@ -135,6 +135,38 @@ def profiles(runs: pd.DataFrame, as_of: datetime) -> list[m.Profile]:
     return out
 
 
+def predictions(store: Store, station_id: str, at: datetime, today: date) -> list[m.PredictionRow]:
+    """One row per (forecaster, target, day): the latest issue known at `at`, and among
+    equal issues the highest version, so a version bump shows the new forecaster, never both."""
+    days = [today + timedelta(days=i) for i in range(0, 6)]
+    df = store.latest_predictions(station_id, at, days)
+    best: dict[tuple[str, str, date], tuple[datetime, str, m.PredictionRow]] = {}
+    for _, r in df.iterrows():
+        q = r["quantiles"] or {}
+        f = r["features"] or {}
+        p50 = c_to_f(q.get("p50"))
+        if p50 is None:
+            continue
+        as_of = pd.Timestamp(r["as_of"]).to_pydatetime()
+        row = m.PredictionRow(
+            forecaster=str(r["forecaster"]),
+            target=str(r["target"]),
+            local_day=r["local_day"],
+            as_of=as_of,
+            lead_h=float(f.get("lead_h", 0.0)),
+            p50=p50,
+            p05=c_to_f(q.get("p05")),
+            p95=c_to_f(q.get("p95")),
+        )
+        key = (row.forecaster, row.target, row.local_day)
+        rank = (as_of, str(r["version"]))
+        if key not in best or rank > best[key][:2]:
+            best[key] = (rank[0], rank[1], row)
+    return sorted(
+        (v[2] for v in best.values()), key=lambda x: (x.local_day, x.target, x.forecaster)
+    )
+
+
 def build_page(
     store: Store,
     station_id: str,
@@ -182,6 +214,7 @@ def build_page(
         observed={v: observed_series(obs, v) for v in ("t2m", "td2m", "wspd10", "cloud")},
         models=model_series(runs, "t2m", hours_ahead),
         nws_daily=nws_daily(runs, tz),
+        predictions=predictions(store, station_id, at, today),
         settlements=[
             m.Settlement(
                 local_day=r["local_day"],

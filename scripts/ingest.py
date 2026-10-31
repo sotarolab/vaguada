@@ -21,6 +21,8 @@ import pandas as pd
 
 from camanchaca_demo import localday
 from camanchaca_demo.config import settings
+from camanchaca_demo.forecast.baselines import RunningExtreme, default_forecasters
+from camanchaca_demo.forecast.issue import issue, issue_slot
 from camanchaca_demo.ingest import afd, iem_asos, iem_cli, markets, nws, open_meteo
 from camanchaca_demo.ingest.feed import client, run_feed
 from camanchaca_demo.store import schemas
@@ -156,6 +158,28 @@ def run(
         ingest_observations(store, c, list(stations["station_id"]), now, received)
         for _, st in stations.iterrows():
             ingest_station(store, c, st, now, received, offices_done)
+    for _, st in stations.iterrows():
+        issue_station(store, st, now, received)
+
+
+def issue_station(store: Store, st: pd.Series, now: datetime, received: datetime) -> None:
+    """Predictions at a slot from every forecaster; at other hours, for deep stations, the
+    running extreme alone, so the page's "observed so far" moves every hour."""
+    sid, tz = str(st["station_id"]), str(st["tz"])
+    slot = localday.slot_at(now, tz)
+    # A replay of a past hour reads no later than the end of that hour, so it cannot see
+    # what arrived afterwards; a live run reads at the moment it ran.
+    read_at = min(received, now + timedelta(hours=1) - timedelta(seconds=1))
+    try:
+        if slot is not None:
+            rows = issue_slot(store, sid, tz, slot[0], slot[1], default_forecasters(), read_at)
+            log.info("%s: slot %s %02d: %d predictions", sid, slot[0], slot[1], len(rows))
+        if st["depth"] == "deep":
+            today = localday.local_day_of(now, tz)
+            targets = [("tmax", today), ("tmin", today)]
+            issue(store, sid, tz, now, targets, [RunningExtreme()], read_at)
+    except Exception as exc:  # noqa: BLE001  the next station still runs
+        log.warning("%s: issue failed: %s", sid, exc)
 
 
 def main() -> None:

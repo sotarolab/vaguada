@@ -402,6 +402,68 @@
     "title": "ModelSeries",
     "type": "object"
    },
+   "PredictionRow": {
+    "properties": {
+     "as_of": {
+      "format": "date-time",
+      "title": "As Of",
+      "type": "string"
+     },
+     "forecaster": {
+      "title": "Forecaster",
+      "type": "string"
+     },
+     "lead_h": {
+      "title": "Lead H",
+      "type": "number"
+     },
+     "local_day": {
+      "format": "date",
+      "title": "Local Day",
+      "type": "string"
+     },
+     "p05": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P05"
+     },
+     "p50": {
+      "title": "P50",
+      "type": "number"
+     },
+     "p95": {
+      "anyOf": [
+       {
+        "type": "number"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "P95"
+     },
+     "target": {
+      "title": "Target",
+      "type": "string"
+     }
+    },
+    "required": [
+     "forecaster",
+     "target",
+     "local_day",
+     "as_of",
+     "lead_h",
+     "p50"
+    ],
+    "title": "PredictionRow",
+    "type": "object"
+   },
    "Profile": {
     "properties": {
      "levels": {
@@ -688,6 +750,13 @@
       "title": "Observed",
       "type": "object"
      },
+     "predictions": {
+      "items": {
+       "$ref": "#/components/schemas/PredictionRow"
+      },
+      "title": "Predictions",
+      "type": "array"
+     },
      "profiles": {
       "items": {
        "$ref": "#/components/schemas/Profile"
@@ -718,6 +787,7 @@
      "observed",
      "models",
      "nws_daily",
+     "predictions",
      "settlements",
      "brackets",
      "discussion",

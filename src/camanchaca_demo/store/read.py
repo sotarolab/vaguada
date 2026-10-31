@@ -51,6 +51,9 @@ class Store(Protocol):
     def latest_product(self, pil: str, as_of: datetime) -> dict[str, Any] | None: ...
     def heartbeats(self) -> pd.DataFrame: ...
     def write_journal(self, row: dict[str, Any]) -> int: ...
+    def latest_predictions(
+        self, station_id: str, as_of: datetime, days: list[date]
+    ) -> pd.DataFrame: ...
     def journal(self, station_id: str, as_of: datetime, limit: int = 60) -> pd.DataFrame: ...
 
 
@@ -278,6 +281,24 @@ class PgStore:
         )
         return self._frame(stmt)
 
+    def latest_predictions(
+        self, station_id: str, as_of: datetime, days: list[date]
+    ) -> pd.DataFrame:
+        """The latest issue per (forecaster, version, target, day) known at as_of."""
+        q = self.t.predictions
+        stmt = (
+            select(q)
+            .where(
+                q.c.station_id == station_id,
+                q.c.received_at <= as_of,
+                q.c.as_of <= as_of,
+                q.c.local_day.in_(days),
+            )
+            .ext(distinct_on(q.c.forecaster, q.c.version, q.c.target, q.c.local_day))
+            .order_by(q.c.forecaster, q.c.version, q.c.target, q.c.local_day, q.c.as_of.desc())
+        )
+        return self._frame(stmt)
+
 
 # ---------------------------------------------------------------------------- in memory
 
@@ -460,3 +481,37 @@ class FrameStore:
         rows.sort(key=lambda e: (e["local_day"], e["created_at"]), reverse=True)
         cols = ["station_id", "local_day", "created_at", "uncertainty", "tags", "text"]
         return pd.DataFrame(rows[:limit], columns=cols)
+
+    def latest_predictions(
+        self, station_id: str, as_of: datetime, days: list[date]
+    ) -> pd.DataFrame:
+        cols = [
+            "forecaster",
+            "version",
+            "station_id",
+            "target",
+            "local_day",
+            "as_of",
+            "received_at",
+            "quantiles",
+            "features",
+        ]
+        rows = [
+            r
+            for r in self.preds
+            if r["station_id"] == station_id
+            and r["received_at"] <= as_of
+            and r["as_of"] <= as_of
+            and r["local_day"] in days
+        ]
+        df = pd.DataFrame(rows, columns=cols)
+        if df.empty:
+            return df
+        return (
+            df.sort_values(
+                ["forecaster", "version", "target", "local_day", "as_of"],
+                ascending=[True, True, True, True, False],
+            )
+            .drop_duplicates(["forecaster", "version", "target", "local_day"], keep="first")
+            .reset_index(drop=True)
+        )

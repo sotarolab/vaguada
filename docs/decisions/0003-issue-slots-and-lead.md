@@ -24,6 +24,11 @@ station, day and slot, with lead as a feature.
 All of this lives in `camanchaca_demo.localday` and nowhere else, with a property test across
 every station time zone and the DST transitions of 2025 to 2027.
 
+A prediction row is labelled with the slot instant as `as_of`, and its `received_at` is the
+moment the job ran, a few seconds to minutes later. The read behind the prediction happens
+at `received_at`, so the job sees what it fetched that hour and a backtest replays the same
+read; what a slot "knew" is exactly what had been received when it was issued.
+
 ## Consequences
 
 The hourly job asks each station whether the current hour is one of its slots, so one

@@ -239,6 +239,31 @@ export interface components {
             /** Values */
             values: (number | null)[];
         };
+        /** PredictionRow */
+        PredictionRow: {
+            /**
+             * As Of
+             * Format: date-time
+             */
+            as_of: string;
+            /** Forecaster */
+            forecaster: string;
+            /** Lead H */
+            lead_h: number;
+            /**
+             * Local Day
+             * Format: date
+             */
+            local_day: string;
+            /** P05 */
+            p05?: number | null;
+            /** P50 */
+            p50: number;
+            /** P95 */
+            p95?: number | null;
+            /** Target */
+            target: string;
+        };
         /** Profile */
         Profile: {
             /** Levels */
@@ -338,6 +363,8 @@ export interface components {
             observed: {
                 [key: string]: components["schemas"]["Series"];
             };
+            /** Predictions */
+            predictions: components["schemas"]["PredictionRow"][];
             /** Profiles */
             profiles: components["schemas"]["Profile"][];
             /** Settlements */

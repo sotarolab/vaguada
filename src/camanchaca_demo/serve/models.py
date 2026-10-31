@@ -83,6 +83,17 @@ class Profile(BaseModel):
     levels: list[ProfileLevel]
 
 
+class PredictionRow(BaseModel):
+    forecaster: str
+    target: str
+    local_day: date
+    as_of: datetime
+    lead_h: float
+    p50: float
+    p05: float | None = None
+    p95: float | None = None
+
+
 class StationPage(BaseModel):
     station: Station
     as_of: datetime
@@ -90,6 +101,7 @@ class StationPage(BaseModel):
     observed: dict[str, Series]
     models: list[ModelSeries]
     nws_daily: DailySeries | None
+    predictions: list[PredictionRow]
     settlements: list[Settlement]
     brackets: list[Bracket]
     discussion: Discussion | None

@@ -30,6 +30,47 @@ export function DailyPane({ page }: { page: StationPage }) {
   )
 }
 
+const FORECASTER_LABEL: Record<string, string> = {
+  observed_so_far: 'Observed so far', raw_nws: 'NWS', raw_nbm: 'NBM', raw_hrrr: 'HRRR', raw_gfs: 'GFS',
+  raw_ifs: 'ECMWF IFS', raw_icon: 'ICON', persistence: 'Persistence',
+}
+const FORECASTER_ORDER = Object.keys(FORECASTER_LABEL)
+
+/** Every forecaster's latest issue for today and tomorrow, beside what has been observed so
+ *  far. The rows are what the scorer will grade; the page only lays them out. */
+export function ForecastsPane({ page }: { page: StationPage }) {
+  const rows = page.predictions
+  if (rows.length === 0) return <p className="note">No predictions issued yet; the first slot writes them.</p>
+  const days = [...new Set(rows.map((r) => r.local_day))].slice(0, 2)
+  const present = [...new Set(rows.map((r) => r.forecaster))]
+  const names = [...FORECASTER_ORDER.filter((n) => present.includes(n)), ...present.filter((n) => !FORECASTER_ORDER.includes(n)).sort()]
+  const settled = new Map(page.settlements.map((s) => [`${s.local_day}:${s.target}`, s]))
+  const cell = (name: string, day: string, target: string) => {
+    const r = rows.find((x) => x.forecaster === name && x.local_day === day && x.target === target)
+    return r ? <span title={`issued ${new Date(r.as_of).toLocaleString([], { timeZone: page.station.tz })}, lead ${Math.round(r.lead_h)} h`}>{deg(r.p50)}</span> : '—'
+  }
+  return (
+    <table className="grid">
+      <thead>
+        <tr><th>Forecaster</th>{days.map((d) => <th key={d} colSpan={2} className="r">{d}</th>)}</tr>
+        <tr><th /> {days.map((d) => [<th key={d + 'h'} className="r">High</th>, <th key={d + 'l'} className="r">Low</th>])}</tr>
+      </thead>
+      <tbody>
+        {names.map((n) => (
+          <tr key={n}>
+            <td>{FORECASTER_LABEL[n] ?? n}</td>
+            {days.map((d) => [<td key={d + 'h'} className="r num">{cell(n, d, 'tmax')}</td>, <td key={d + 'l'} className="r num">{cell(n, d, 'tmin')}</td>])}
+          </tr>
+        ))}
+        <tr className="favourite">
+          <td>Climate report</td>
+          {days.map((d) => [<td key={d + 'h'} className="r num">{deg(settled.get(`${d}:tmax`)?.value)}</td>, <td key={d + 'l'} className="r num">{deg(settled.get(`${d}:tmin`)?.value)}</td>])}
+        </tr>
+      </tbody>
+    </table>
+  )
+}
+
 export function BracketsPane({ brackets }: { brackets: Bracket[] }) {
   if (brackets.length === 0) return <p className="note">No market for this station.</p>
   const days = [...new Set(brackets.map((b) => b.local_day))]
