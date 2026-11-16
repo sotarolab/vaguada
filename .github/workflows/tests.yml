@@ -9,23 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: "pip"
-
-      - name: Install
-        run: pip install -e ".[dev,service]"
-
-      - name: Lint
-        run: ruff check .
-
-      - name: Types
-        run: mypy -p camanchaca_demo
-
-      - name: Import contract
-        run: lint-imports
-
-      - name: Tests
-        run: pytest -v
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -e ".[dev]"
+      - run: ruff check .
+      - run: mypy -p vaguada && mypy archive.py settle.py score.py digest.py
+      - run: pytest -q

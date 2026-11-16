@@ -1,0 +1,153 @@
+
+938 
+FXUS66 KLOX 300204
+AFDLOX
+
+Area Forecast Discussion...UPDATED
+National Weather Service Los Angeles/Oxnard CA 
+704 PM PDT Thu Oct 29 2026
+
+.SYNOPSIS...29/704 PM.
+
+Rain chances continue through much of the weekend, with the peak
+of the rain likely occuring Saturday night evening into Sunday 
+morning. Warmer and drier conditions expected early next week, 
+with the potetnial for more light rain by the middle of next week.
+
+&&
+
+.SHORT TERM (THU-SUN)...29/704 PM.
+
+***UPDATE***
+
+A cool and cloudy day across the forecast area saw high
+temperatures generally around a few degrees cooler compared to
+yesterday. Some very light sprinkles fell across the area with a 
+few areas recording one hundredth of an inch, including here at 
+the office in Oxnard. All eyes turn to what should be a relatively
+beneficial rainfall through Halloween weekend, however, even 
+light rain may disrupt outdoor Halloween plans. The forecast 
+remains on track with light showers possible through Saturday 
+morning and the potential for more steady rain with higher rain 
+totals Saturday afternoon/evening into Sunday morning.
+
+***From Previous Discussion***
+
+For the short term, main focus remains on rain chances across the
+district. Models continue to be on the same broad synoptic page,
+but differ in the details. An upper low will continue to spin off
+the Pacific Northwest coast through Saturday, before moving inland
+on Sunday. This will result in a very sharp trough, or a weak
+upper low, impacting the area this weekend.
+
+Overall, the last couple of model runs have trended a bit "drier"
+and further south with this storm, but ensembles, especially the
+ECMWF suite, still indicate a decent number of moderate to heavy
+rainfall members. So, at this time, there is high confidence in
+widespread rainfall across the area, but only moderate confidence
+in amounts through the Halloween weekend.
+
+Today through Saturday morning, there will be some scattered light
+showers just about anywhere with a deep moist layer in place
+across the area. Rainfall totals, if any, through Saturday morning
+will be on the order of a few hundredths of an inch. By Saturday
+afternoon/evening, the main storm will move eastward towards
+Southern California, moving inland during the day on Sunday. As
+alluded to above, the heaviest rainfall Saturday night and Sunday
+looks to remain south of LA county. Current rainfall totals look 
+to generally be in the 0.25 to 1.00 inch range across the area 
+with locally higher amounts (up to 2.00 inches) possible across 
+favored mountain slopes. Given the continued uncertainty between
+models, there still is a 20% chance of amounts about double the
+expected totals and a 20% chance of amounts about one half of the
+expected totals. 
+
+As for rain rates, the best instability looks to remain south of
+LA county. So, rainfall rates are expected to be in the 0.10 to
+0.33 inch/hour range. Additionally, any thunderstorm threat looks
+to be minimal (under a 10% chance).
+
+.LONG TERM (MON-THU)...29/1255 PM.
+
+For the extended, latest models are exhibiting good synoptic
+agreement through the period. At upper levels, ridge will develop
+over the area Monday/Tuesday then will shift eastward as a upper
+low sweeps northeastward across northern California on Wednesday
+and Thursday. At the surface, weak offshore flow will prevail on
+Monday/Tuesday with a return of weak onshore flow by Wednesday and
+Thursday.
+
+Forecast-wise, the above synoptic pattern will result in benign
+weather for the area. With the ridge overhead and weak offshore
+pressure gradients, Monday and Tuesday will be dry and warmer with
+high temperatures topping out in the upper 60s and 70s. There will
+be some northeasterly winds, due to the offshore pressure
+gradients, but any winds are expected to remain below advisory
+levels. 
+
+For Wednesday and Thursday, a slight cooling trend can be expected
+with some increase in high clouds. With the upper low moving
+northeast into northern California, there will be a low chance
+(less than 20%) of some light showers across the Central Coast.
+
+&&
+
+.AVIATION...29/2313Z.
+
+At 2212Z at KLAX, there was a deep moist layer to 5500 feet. 
+marine layer was 5000 ft deep. The top of the inversion was at 
+8000 ft with a temperature of 10 C.
+
+High confidence in VFR TAFs for KPMD & KWJF.
+
+Moderate to high confidence in TAFs with VFR cigs for remaining 
+sites, with infrequent periods of 020-030 MVFR cigs. Additionally,
+there is 10-25% chance of -DZ or -SHRA from late tonight through 
+the TAF period.
+
+KLAX...Moderate to high confidence in TAF. VFR cigs likely 
+with infrequent periods of BKN020-030 cigs. 15-25% chance of -DZ
+or -SHRA from around 30/06Z through the period. Any east wind 
+component is expected to remain under 8 kt.
+
+KBUR...Moderate to high confidence in TAF. VFR cigs likely 
+with infrequent periods of BKN020-030 cigs. 10-20% chance of -DZ 
+or -SHRA from around 30/06Z through the period. No wind issues 
+expected.
+
+&&
+
+.MARINE...29/142 PM.
+
+Conditions are expected to remain below Small Craft Advisory 
+(SCA) levels through Saturday. Southwest flow aloft will produce 
+chances for drizzle and isolated light rain showers Today & Friday.
+
+A storm system is expected to impact the coastal waters this weekend.
+However, guidance continues to shift to the south with some solutions
+showing the bulk of showers only as far north as the Channel islands.
+Regardless, there will be some gusty SCA NW winds behind the system
+on Sunday.
+
+&&
+
+.LOX WATCHES/WARNINGS/ADVISORIES...
+CA...Coastal Flood Advisory in effect until 2 PM PDT Friday for
+      zones 87-340-346-349-350-354-362-366. (See LAXCFWLOX).
+PZ...NONE.
+
+&&
+
+$$
+
+PUBLIC...Thompson/Lewis
+AVIATION...Lewis
+MARINE...Black
+SYNOPSIS...Lewis
+
+weather.gov/losangeles
+
+Experimental Graphical Hazardous Weather Outlook at:
+https://www.weather.gov/erh/ghwo?wfo=lox
+
+
