@@ -1,0 +1,307 @@
+
+643 
+CDUS46 KLOX 300235
+CLILAX
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE LOS ANGELES/OXNARD
+735 PM PDT THU OCT 29 2026
+
+...................................
+
+...THE LOS ANGELES INTL AIRPORT CA CLIMATE SUMMARY FOR OCTOBER 29 2026...
+VALID TODAY AS OF 0500 PM LOCAL TIME.
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1944 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ TODAY                                                               
+  MAXIMUM         73  12:52 PM  91    2025  74     -1       91        
+  MINIMUM         63   6:54 AM  45    1971  58      5       61        
+  AVERAGE         68                        66      2       76     
+
+PRECIPITATION (IN)                                                    
+  TODAY            0.00          0.59 2000   0.02  -0.02     0.00     
+  MONTH TO DATE    0.62                      0.44   0.18     0.80     
+  SINCE JUL 1      1.27                      0.59   0.68     0.84     
+  SINCE OCT 1      0.62                      0.44   0.18     0.80     
+  SINCE JAN 1      6.76                      9.13  -2.37     5.92     
+
+SNOWFALL (IN)                                                              
+  TODAY           MM                                                  
+  MONTH TO DATE    T                                                  
+  SINCE SEP 1      T                                                  
+  SINCE JUL 1      T                                                  
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  TODAY            0                         2     -2        0        
+  MONTH TO DATE    2                        22    -20       15        
+  SINCE SEP 1      2                        24    -22       15        
+  SINCE JUL 1      2                        27    -25       15        
+
+ COOLING                                                              
+  TODAY            3                         2      1       11        
+  MONTH TO DATE  256                        87    169       69        
+  SINCE SEP 1    549                       242    307      275        
+  SINCE JAN 1   1307                       681    626      672        
+...................................................................
+
+
+WIND (MPH)                                                            
+  HIGHEST WIND SPEED    16   HIGHEST WIND DIRECTION     W (250)       
+  HIGHEST GUST SPEED    20   HIGHEST GUST DIRECTION     S (170)       
+  AVERAGE WIND SPEED     5.9                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.8                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED TODAY.                             
+  NO SIGNIFICANT WEATHER WAS OBSERVED.                                  
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    84           7:00 AM                                      
+ LOWEST     57          11:00 AM                                      
+ AVERAGE    71                                                        
+
+..........................................................
+
+
+THE LOS ANGELES INTL AIRPORT CA CLIMATE NORMALS FOR TOMORROW
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   74        92      1962                      
+ MINIMUM TEMPERATURE (F)   57        43      1946                      
+                                             1971                     
+
+
+SUNRISE AND SUNSET                                                    
+OCTOBER 29 2026.......SUNRISE   7:10 AM PDT   SUNSET   6:04 PM PDT     
+OCTOBER 30 2026.......SUNRISE   7:11 AM PDT   SUNSET   6:03 PM PDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+981 
+CDUS46 KLOX 300140
+CLILAX
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE LOS ANGELES/OXNARD
+640 PM PDT THU OCT 29 2026
+
+...................................
+
+...THE LOS ANGELES INTL AIRPORT CA CLIMATE SUMMARY FOR OCTOBER 29 2026...
+VALID TODAY AS OF 0500 PM LOCAL TIME.
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1944 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ TODAY                                                               
+  MAXIMUM         73  12:52 PM  91    2025  74     -1       91        
+  MINIMUM         63   6:54 AM  45    1971  58      5       61        
+  AVERAGE         68                        66      2       76     
+
+PRECIPITATION (IN)                                                    
+  TODAY            0.00          0.59 2000   0.02  -0.02     0.00     
+  MONTH TO DATE    0.62                      0.44   0.18     0.80     
+  SINCE JUL 1      1.27                      0.59   0.68     0.84     
+  SINCE OCT 1      0.62                      0.44   0.18     0.80     
+  SINCE JAN 1      6.76                      9.13  -2.37     5.92     
+
+SNOWFALL (IN)                                                              
+  TODAY           MM                                                  
+  MONTH TO DATE    T                                                  
+  SINCE SEP 1      T                                                  
+  SINCE JUL 1      T                                                  
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  TODAY            0                         2     -2        0        
+  MONTH TO DATE    2                        22    -20       15        
+  SINCE SEP 1      2                        24    -22       15        
+  SINCE JUL 1      2                        27    -25       15        
+
+ COOLING                                                              
+  TODAY            3                         2      1       11        
+  MONTH TO DATE  256                        87    169       69        
+  SINCE SEP 1    549                       242    307      275        
+  SINCE JAN 1   1307                       681    626      672        
+...................................................................
+
+
+WIND (MPH)                                                            
+  HIGHEST WIND SPEED    16   HIGHEST WIND DIRECTION     W (250)       
+  HIGHEST GUST SPEED    20   HIGHEST GUST DIRECTION     S (170)       
+  AVERAGE WIND SPEED     5.9                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.8                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED TODAY.                             
+  NO SIGNIFICANT WEATHER WAS OBSERVED.                                  
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    84           7:00 AM                                      
+ LOWEST     57          11:00 AM                                      
+ AVERAGE    71                                                        
+
+..........................................................
+
+
+THE LOS ANGELES INTL AIRPORT CA CLIMATE NORMALS FOR TOMORROW
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   74        92      1962                      
+ MINIMUM TEMPERATURE (F)   57        43      1946                      
+                                             1971                     
+
+
+SUNRISE AND SUNSET                                                    
+OCTOBER 29 2026.......SUNRISE   7:10 AM PDT   SUNSET   6:04 PM PDT     
+OCTOBER 30 2026.......SUNRISE   7:11 AM PDT   SUNSET   6:03 PM PDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+
+
+830 
+CDUS46 KLOX 290840
+CLILAX
+
+CLIMATE REPORT 
+NATIONAL WEATHER SERVICE LOS ANGELES/OXNARD
+140 AM PDT THU OCT 29 2026
+
+...................................
+
+...THE LOS ANGELES INTL AIRPORT CA CLIMATE SUMMARY FOR OCTOBER 28 2026...
+
+CLIMATE NORMAL PERIOD: 1991 TO 2020
+CLIMATE RECORD PERIOD: 1944 TO 2026
+
+
+WEATHER ITEM   OBSERVED TIME   RECORD YEAR NORMAL DEPARTURE LAST      
+                VALUE   (LST)  VALUE       VALUE  FROM      YEAR     
+                                                  NORMAL           
+...................................................................
+TEMPERATURE (F)                                                          
+ YESTERDAY                                                           
+  MAXIMUM         75   1:11 PM  88    1973  74      1       81        
+  MINIMUM         60   6:39 AM  48    1949  58      2       59        
+  AVERAGE         68                        66      2       70     
+
+PRECIPITATION (IN)                                                    
+  YESTERDAY        0.00          0.45 1974   0.02  -0.02     0.00     
+  MONTH TO DATE    0.62                      0.42   0.20     0.80     
+  SINCE JUL 1      1.27                      0.57   0.70     0.84     
+  SINCE OCT 1      0.62                      0.42   0.20     0.80     
+  SINCE JAN 1      6.76                      9.11  -2.35     5.92     
+
+SNOWFALL (IN)                                                              
+  YESTERDAY       MM                                                  
+  MONTH TO DATE    T                                                  
+  SINCE SEP 1      T                                                  
+  SINCE JUL 1      T                                                  
+
+DEGREE DAYS                                                           
+ HEATING                                                              
+  YESTERDAY        0                         2     -2        0        
+  MONTH TO DATE    2                        20    -18       15        
+  SINCE SEP 1      2                        22    -20       15        
+  SINCE JUL 1      2                        25    -23       15        
+
+ COOLING                                                              
+  YESTERDAY        3                         2      1        5        
+  MONTH TO DATE  253                        85    168       58        
+  SINCE SEP 1    546                       240    306      264        
+  SINCE JAN 1   1304                       679    625      661        
+...................................................................
+
+
+WIND (MPH)                                                            
+  HIGHEST WIND SPEED    18   HIGHEST WIND DIRECTION     W (250)       
+  HIGHEST GUST SPEED    22   HIGHEST GUST DIRECTION    SW (240)       
+  AVERAGE WIND SPEED     5.8                                        
+
+
+SKY COVER                                                             
+  POSSIBLE SUNSHINE  MM                                                 
+  AVERAGE SKY COVER 0.5                                                 
+
+
+WEATHER CONDITIONS                                                    
+THE FOLLOWING WEATHER WAS RECORDED YESTERDAY.                         
+  NO SIGNIFICANT WEATHER WAS OBSERVED.                                  
+
+
+RELATIVE HUMIDITY (PERCENT)
+ HIGHEST    86           2:00 AM                                      
+ LOWEST     53          11:00 AM                                      
+ AVERAGE    70                                                        
+
+..........................................................
+
+
+THE LOS ANGELES INTL AIRPORT CA CLIMATE NORMALS FOR TODAY
+                         NORMAL    RECORD    YEAR                     
+ MAXIMUM TEMPERATURE (F)   74        91      2025                      
+ MINIMUM TEMPERATURE (F)   58        45      1971                      
+
+
+SUNRISE AND SUNSET                                                    
+OCTOBER 29 2026.......SUNRISE   7:10 AM PDT   SUNSET   6:04 PM PDT     
+OCTOBER 30 2026.......SUNRISE   7:11 AM PDT   SUNSET   6:03 PM PDT     
+
+
+-  INDICATES NEGATIVE NUMBERS.
+R  INDICATES RECORD WAS SET OR TIED.
+MM INDICATES DATA IS MISSING.
+T  INDICATES TRACE AMOUNT.
+
+
+
+
+$$
+
+

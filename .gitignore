@@ -10,5 +10,6 @@ __pycache__/
 dist/
 build/
 .DS_Store
-client/node_modules/
-client/dist/
+app/node_modules/
+app/dist/
+data/
