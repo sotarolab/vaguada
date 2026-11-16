@@ -1,43 +1,44 @@
 # Architecture
 
-See `docs/PLAN.md` for the layout and the database, and `docs/decisions/` for why.
-
-## Dependency direction
+Four flat scripts, one package, one static page, one data branch. See `docs/PLAN.md` for
+the order of work and `docs/decisions/` for why.
 
 ```
-serve  >  evaluate  >  forecast  >  features | ingest  >  store  >  localday | config
+archive.py    fetch every live product for the stations due this hour; save as it arrived,
+              gzipped, under data/<product>/<station>/<UTC fetch time>.gz; skip a file equal
+              to the newest one already there
+settle.py     every archived climate report -> data/settlements/<station>.csv, one row per
+              report version (preliminary and final), with issue and fetch times
+score.py      baselines at every local slot from files fetched before the slot (each raw
+              model's daily extreme, the NWS daily series, persistence) and every model
+              file under data/forecasts/, scored against the settlements
+              -> data/scores/daily.csv
+digest.py     data/site/index.json and data/site/stations/<station>.json: what the page draws
+vaguada/      localday (local day, slots, lead), daily (daily and running extremes),
+              parsers/ (one module per source: URL builder and parser), stations.csv
+app/          the static page (next change): Vite, React, Leaflet, uPlot; reads data/site
 ```
 
-A layer imports only the layers below it. `features` imports pandas and `localday` only.
-`.importlinter` runs in CI.
+Products and sources, checked 2026-10-29 and 2026-11-16:
 
-## Feeds
+| Product | Source | What is saved | When |
+|---|---|---|---|
+| openmeteo | Open-Meteo forecast API, five models in one call | hourly surface variables for 7 days; pressure-level profiles at deep stations | deep stations every hour, others at their local slots |
+| nws_grid | api.weather.gov gridpoints | the raw grid: hourly temperature, daily max and min, and more, with the issue time | same |
+| asos | IEM ASOS, one batched request | the last three hours of hourly METARs, split per station | same |
+| cli | IEM AFOS `CLI<site>` | the last three climate report products | stations that settle |
+| afd | IEM AFOS `AFD<office>` | the last two discussions | deep stations' offices |
+| markets | public market API | the day's bracket markets with prices | stations with a market |
+| nws_points | api.weather.gov points | the office and grid point, resolved once | first run |
 
-Checked 2026-10-29 at KDEN and KLAX with one request per source. Horizon counts are hours
-of non-null `temperature_2m` in a 7-day request.
+Forecast contract for any model: `data/forecasts/<model>/<station>/<YYYY-MM-DDTHHZ>.csv`
+with `date,target,lead_h,q05,q25,q50,q75,q95` in Fahrenheit; `target` is `tmax` or `tmin`;
+the file stem is the issue instant. The ledger scores it beside the baselines and never
+knows how it was made.
 
-| Feed | Source | Variables | Horizon | Cadence | Notes |
-|---|---|---|---|---|---|
-| GFS | Open-Meteo `gfs_global` | t2m, td2m, cloud, precip, visibility; profiles at 1000/925/850/700/500 hPa (T, Z, wind, RH); boundary layer height | 168 h | 4 runs/day | Cycle not reported; `run_at` is the fetch hour |
-| HRRR | Open-Meteo `gfs_hrrr` | same, profiles included | 49 h | hourly runs | 48 h only at 00/06/12/18 UTC cycles |
-| NBM | Open-Meteo `ncep_nbm_conus` | t2m, td2m, cloud, precip; visibility partial | 168 h | hourly runs | No profiles, no boundary layer height |
-| ECMWF IFS | Open-Meteo `ecmwf_ifs025` | t2m, td2m, cloud, precip; profiles | 168 h | 2 to 4 runs/day | No visibility, no boundary layer height |
-| ICON | Open-Meteo `icon_global` | t2m, td2m, cloud, precip; profiles | 168 h | 4 runs/day | No visibility, no boundary layer height |
-| NWS grid | api.weather.gov `gridpoints/{office}/{x},{y}` | hourly temperature, dewpoint, maxTemperature, minTemperature, sky cover, wind, PoP, QPF, hazards and more, each with its own valid-time runs | 7 d 8 h | updates several times a day | `updateTime` is the issue time; this is the settlement-grade NWS forecast |
-| NWS hourly | api.weather.gov `.../forecast/hourly` | temperature, wind, PoP per hour | 156 h | per update | Derived from the grid |
-| NWS periods | api.weather.gov `.../forecast` | day/night temperature | 14 periods | per update | Day high, night low |
-| Discussion | IEM AFOS `pil=AFD{office}` | text with issue time | n/a | 2 to 4 per day plus updates | Office LOX for KLAX |
-| Observations | IEM ASOS `asos.py`, `report_type=3` | tmpf, dwpf, sky, visibility, precip, wind, pressure, wx codes | n/a | hourly METAR | Request in UTC |
-| Settlement | IEM AFOS `pil=CLI{site}` | daily max, min, times, normals, records | n/a | preliminary ~5 PM local, final next morning | Both versions stored; `received_at` separates them |
-| Markets | public market API, `markets?series_ticker=KXHIGH{city}&status=open` | bracket strikes, yes bid/ask, last price, close time | the day's markets | sampled at slots | No key needed; prices only |
-| Vendors | daily high/low per point from vendor APIs with free tiers | tmax, tmin per day | 5 to 15 d | per fetch | One adapter each; absent when the key is missing; within each free limit |
+Point in time: filenames are fetch times. A baseline at slot `t` uses the newest file fetched
+before `t`; persistence uses the settlement rows fetched before `t`. A backtest is the same
+code over past slots.
 
-## Jobs
-
-- `scripts/ingest.py --now`: every hour. Floors the clock to the hour, asks each active
-  station whether it is a slot, fetches every feed for that station, writes rows with
-  `received_at = now`, then issues predictions for the slot's targets.
-- `scripts/score.py`: after ingest. Settles closed days from the climate report, scores
-  predictions against settlements, rebuilds `scores` and `scorecard`.
-- Both run from `.github/workflows/slots.yml` with the database URL as a repository secret,
-  and locally with the same commands.
+Workflows: `archive.yml` runs the four scripts every hour and commits to the `data` branch;
+`tests.yml` runs ruff, mypy and pytest on every push; `pages.yml` arrives with the page.

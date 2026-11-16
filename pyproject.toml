@@ -3,51 +3,36 @@ requires = ["setuptools>=69"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "camanchaca-demo"
-version = "0.1.0"
-description = "Station-level daily high and low forecasts, stored before settlement and scored nightly against the official climate report, the raw models and the NWS."
+name = "vaguada"
+version = "0.2.0"
+description = "A public ledger of station daily high and low forecasts, scored every day against the NWS climate report."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-dependencies = [
-    "numpy",
-    "pandas>=2,<3",
-    "httpx>=0.27",
-    "pydantic>=2",
-    "pydantic-settings>=2",
-    "sqlalchemy>=2",
-    "psycopg[binary]>=3.1",
-    "pandera>=0.20",
-]
+dependencies = ["numpy", "pandas>=2,<3"]
 
 [project.optional-dependencies]
-service = ["fastapi>=0.110", "uvicorn[standard]", "alembic>=1.13"]
-dev = [
-    "pytest>=8",
-    "hypothesis>=6",
-    "ruff>=0.5",
-    "mypy>=1.10",
-    "import-linter>=2.1,<3",
-    "pandas-stubs",
-    "alembic>=1.13",
-]
+dev = ["pytest>=8", "hypothesis>=6", "ruff>=0.5", "mypy>=1.10", "pandas-stubs"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools]
+packages = ["vaguada", "vaguada.parsers"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+vaguada = ["stations.csv"]
 
 [tool.pytest.ini_options]
+pythonpath = ["."]
 testpaths = ["tests"]
 
 [tool.ruff]
-line-length = 100
+line-length = 110
 target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM", "DTZ"]
 
 [tool.mypy]
-mypy_path = "src"
 python_version = "3.11"
 strict = true
-warn_unreachable = true
 ignore_missing_imports = true

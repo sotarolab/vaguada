@@ -1,0 +1,44 @@
+name: Archive, settle, score, build the site
+
+# The point forecasts and the climate reports are live products: an hour not captured is gone.
+# Every hour at :07. Deep stations are archived every run, the others at their local slots.
+# Data is committed to the `data` branch so `main` stays code-only.
+on:
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch: {}
+
+concurrency:
+  group: archive
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: data
+          path: data-branch
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -e .
+      - run: python archive.py data-branch/data
+      - run: python settle.py data-branch/data
+      - run: python score.py data-branch/data
+      - run: python digest.py data-branch/data
+      - name: Commit new files
+        working-directory: data-branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet || git commit -q -m "archive $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push
